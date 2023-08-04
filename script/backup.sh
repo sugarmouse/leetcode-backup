@@ -4,7 +4,7 @@
 git add .
 
 # 提交暂存区的修改，并添加提交信息
-git commit -m "add new"
+git commit -m "backup"
 
 # 推送代码到远程仓库的 main 分支
 git push origin main
