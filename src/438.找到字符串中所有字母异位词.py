@@ -1,42 +1,44 @@
 #
-# @lc app=leetcode.cn id=567 lang=python3
+# @lc app=leetcode.cn id=438 lang=python3
 #
+# [438] 找到字符串中所有字母异位词
 #
-# [567] 字符串的排列
 
-# @lc code=start
+from typing import List
 from collections import defaultdict
 
+# @lc code=start
 class Solution:
-    def checkInclusion(self, s1: str, s2: str) -> bool:
+    def findAnagrams(self, s: str, p: str) -> List[int]:
         left, right = 0, 0
         need, window = defaultdict(int), defaultdict(int)
 
         valid = 0
-
-        for c in s1:
+        res = []
+        for c in p:
             need[c] += 1
 
-        while right < len(s2):
+        while right < len(s):
             # 移动 right 找复合要求的子字符串
-            c = s2[right]
+            c = s[right]
             right += 1
             if c in need:
                 window[c] += 1
                 if window[c] == need[c]:
                     valid += 1
 
-            while right - left >= len(s1):
+            while right - left >= len(p):
                 # 此时子字符串 s1[left, right] 的长度等于 len(s2)
                 # [left, right)
                 if valid == len(need):
-                    return True
+                    res.append(left)
 
-                d = s2[left]
+                d = s[left]
                 left += 1
                 if d in need:
                     if window[d] == need[d]:
                         valid -= 1
                     window[d] -= 1
-        return False
+        return res
 # @lc code=end
+
