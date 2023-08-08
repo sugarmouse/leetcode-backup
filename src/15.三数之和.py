@@ -40,13 +40,15 @@ class Solution:
             return res
 
         else:
-            for i in range(start, len(nums)):
+            i = start
+            while i < size:
                 subs = self.nSum(nums, n-1, target-nums[i], i+1)
                 for arr in subs:
                     arr.append(nums[i])
                     res.append(arr)
                 while i < size - 1 and nums[i] == nums[i+1]:
                     i += 1
+                i+=1
         return res
 
 # @lc code=end
