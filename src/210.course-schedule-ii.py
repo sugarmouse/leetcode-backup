@@ -6,10 +6,52 @@
 
 # @lc code=start
 from typing import List
+from collections import deque
+
 
 # 拓扑排序
+class Solution:
+    def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
+        graph = self.buildGraph(numCourses, prerequisites)
+
+        # 初始化 0 indegree 节点队列
+        indegree = [0 for _ in range(numCourses)]
+        q = deque()
+        for edge in prerequisites:
+            indegree[edge[0]] += 1
+        for i, v in enumerate(indegree):
+            if v == 0:
+                q.append(i)
+
+        # 从 0 indegree 节点逐个遍历
+        res = []
+        count = 0
+        while q:
+            cur = q.popleft()
+            count += 1
+            res.append(cur)
+
+            for next_node in graph[cur]:
+                indegree[next_node] -= 1
+                if indegree[next_node] == 0:
+                    q.append(next_node)
+
+        # 检测是否有环，返回结果
+        return res if count == numCourses else []
+
+    def buildGraph(self, numCourses: int, prerequisites: List[List[int]]) -> List[List[int]]:
+        graph = [[] for _ in range(numCourses)]
+
+        for edge in prerequisites:
+            graph[edge[1]].append(edge[0])
+
+        return graph
 
 
+# @lc code=end
+
+# DFS
+# 拓扑排序
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
         self.path = [False for _ in range(numCourses)]
@@ -50,6 +92,3 @@ class Solution:
             graph[edge[1]].append(edge[0])
 
         return graph
-
-
-# @lc code=end
